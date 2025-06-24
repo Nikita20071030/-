@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // ИЗМЕНЕНО: Убрали localStorage, теперь данные грузятся с сервера
+
   let products = [];
 
-  // DOM элементы (без изменений)
   const elements = {
     productTable: document.querySelector('.products-table tbody'),
     addForm: document.getElementById('add-product-form'),
@@ -14,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     photoUploadBtn: document.querySelector('.photo-upload-btn')
   };
 
-  // ИЗМЕНЕНО: Загрузка товаров с сервера
+
   async function loadProducts() {
     try {
       const response = await fetch('http://localhost:5000/api/products');
@@ -26,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // ИЗМЕНЕНО: Добавление товара через API
+
   async function addProduct(product) {
     try {
       const response = await fetch('http://localhost:5000/api/products', {
@@ -42,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // ИЗМЕНЕНО: Удаление товара через API
+
   async function deleteProduct(productId) {
     try {
       const response = await fetch(`http://localhost:5000/api/products/${productId}`, {
@@ -55,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // БЕЗ ИЗМЕНЕНИЙ: Рендер таблицы товаров
+
   function renderProducts() {
     if (!elements.productTable) return;
     elements.productTable.innerHTML = '';
@@ -77,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
       elements.productTable.appendChild(row);
     });
 
-    // Обработчики кнопок (без изменений)
+
     document.querySelectorAll('.edit-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -95,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // БЕЗ ИЗМЕНЕНИЙ: Редактирование товара (но теперь вызывает API)
+
   function editProduct(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
@@ -108,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
     showPage('add');
   }
 
-  // БЕЗ ИЗМЕНЕНИЙ: Переключение страниц
+ 
   function showPage(pageId) {
     elements.pages.forEach(page => page.style.display = 'none');
     document.querySelector(`.${pageId}-page`).style.display = 'block';
@@ -118,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (pageId === 'reports') renderReports();
   }
 
-  // ИЗМЕНЕНО: Форма отправки (теперь через API)
+
   if (elements.addForm) {
     elements.addForm.addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -141,10 +140,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Остальные функции (renderAlerts, renderReports) без изменений
-  // ... (ваш текущий код)
 
-  // Инициализация
-  loadProducts(); // Первая загрузка данных
+
+
+  loadPoducts(); // Первая загрузка данных
   showPage('products');
 });
