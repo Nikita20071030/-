@@ -5,7 +5,7 @@ from mysql.connector import Error
 from datetime import datetime
 import os
 
-# Инициализация Flask с правильными путями
+
 app = Flask(
     __name__,
     template_folder=os.path.abspath('../templates'),  # Путь к шаблонам
@@ -13,7 +13,7 @@ app = Flask(
 )
 CORS(app)  # Разрешаем CORS для всех доменов
 
-# Конфигурация подключения к MySQL (без пароля)
+
 def create_connection():
     try:
         return mysql.connector.connect(
@@ -26,19 +26,19 @@ def create_connection():
         print(f"Ошибка подключения к MySQL: {e}")
         return None
 
-# Роут для главной страницы
+
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# Отдача статических файлов
+
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return send_from_directory(app.static_folder, filename)
 
-# ============ API для товаров ============
 
-# Получить все товары
+
+
 @app.route('/api/products', methods=['GET'])
 def get_products():
     conn = create_connection()
@@ -65,12 +65,12 @@ def get_products():
                 conn.close()
     return jsonify({"error": "Database connection failed"}), 500
 
-# Добавить новый товар
+
 @app.route('/api/products', methods=['POST'])
 def add_product():
     data = request.json
     
-    # Проверка обязательных полей
+    
     required_fields = ['id', 'name', 'category', 'quantity', 'min']
     if not all(field in data for field in required_fields):
         return jsonify({"error": "Missing required fields"}), 400
@@ -101,7 +101,7 @@ def add_product():
                 conn.close()
     return jsonify({"error": "Database connection failed"}), 500
 
-# Обновить товар
+
 @app.route('/api/products/<product_id>', methods=['PUT'])
 def update_product(product_id):
     data = request.json
@@ -136,7 +136,7 @@ def update_product(product_id):
                 conn.close()
     return jsonify({"error": "Database connection failed"}), 500
 
-# Удалить товар
+
 @app.route('/api/products/<product_id>', methods=['DELETE'])
 def delete_product(product_id):
     conn = create_connection()
@@ -154,7 +154,7 @@ def delete_product(product_id):
                 conn.close()
     return jsonify({"error": "Database connection failed"}), 500
 
-# Запуск сервера с проверкой путей
+
 if __name__ == '__main__':
     print("Путь к шаблонам:", os.path.abspath(app.template_folder))
     print("Путь к статике:", os.path.abspath(app.static_folder))
